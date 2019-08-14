@@ -56,7 +56,10 @@ namespace RedshiftSupplyCollector {
             else if ("date".Equals(dbDataType)) {
                 return DataType.DateTime;
             }
-            else if ("timestamp".Equals(dbDataType)) {
+            else if ("timestamp without time zone".Equals(dbDataType)) {
+                return DataType.DateTime;
+            }
+            else if ("timestamp with time zone".Equals(dbDataType)) {
                 return DataType.DateTime;
             }
             else if ("datetime".Equals(dbDataType)) {
@@ -143,7 +146,7 @@ namespace RedshiftSupplyCollector {
 
                 using (var cmd = conn.CreateCommand()) {
                     cmd.CommandText =
-                        "select c.table_schema, c.table_name, c.column_name, c.data_type, c.column_default, c.is_nullable, c.is_identity,\n" +
+                        "select c.table_schema, c.table_name, c.column_name, c.data_type, c.column_default, \n" +
                         "(select count(*)\n" +
                         "   from information_schema.constraint_column_usage ccu\n" +
                         "   join information_schema.table_constraints tc on ccu.constraint_name = tc.constraint_name and ccu.constraint_schema = tc.constraint_schema and tc.constraint_type = 'PRIMARY KEY'\n" +
@@ -173,10 +176,6 @@ namespace RedshiftSupplyCollector {
                             var columnName = reader.GetDbString(column++);
                             var dataType = reader.GetDbString(column++);
                             var columnDef = reader.GetDbString(column++);
-                            var isNullable = "YES".Equals(reader.GetDbString(column++),
-                                StringComparison.InvariantCultureIgnoreCase);
-                            var isIdentity = "YES".Equals(reader.GetDbString(column++),
-                                StringComparison.InvariantCultureIgnoreCase);
                             var isPrimary = reader.GetInt64(column++) > 0;
                             var isUnique = reader.GetInt64(column++) > 0;
                             var isRef = reader.GetInt64(column++) > 0;

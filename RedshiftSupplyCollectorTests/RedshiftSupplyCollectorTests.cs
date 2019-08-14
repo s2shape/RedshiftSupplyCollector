@@ -66,7 +66,7 @@ namespace RedshiftSupplyCollectorTests
         {
             var (tables, elements) = _instance.GetSchema(_container);
             Assert.Equal(5, tables.Count);
-            Assert.Equal(31, elements.Count);
+            Assert.Equal(24, elements.Count);
 
             var tableNames = new string[] { "test_data_types", "test_field_names", "test_index", "test_index_ref" };
             foreach (var tableName in tableNames)
@@ -86,23 +86,23 @@ namespace RedshiftSupplyCollectorTests
                 {"bool_field", "boolean"},
                 {"char_field", "character"},
                 {"varchar_field", "character varying"},
-                {"text_field", "text"},
+                {"text_field", "character varying"},
                 {"smallint_field", "smallint"},
                 {"int_field", "integer"},
                 {"float_field", "double precision"},
                 {"real_field", "real"},
                 {"numeric_field", "numeric"},
                 {"date_field", "date"},
-                {"timestamp_field", "timestamp"},
+                {"timestamp_field", "timestamp without time zone"},
             };
 
             var columns = elements.Where(x => x.Collection.Name.Equals("test_data_types")).ToArray();
-            Assert.Equal(17, columns.Length);
+            Assert.Equal(12, columns.Length);
 
             foreach (var column in columns)
             {
                 Assert.Contains(column.Name, (IDictionary<string, string>)dataTypes);
-                Assert.Equal(column.DbDataType, dataTypes[column.Name]);
+                Assert.Equal(dataTypes[column.Name], column.DbDataType);
             }
         }
 
@@ -111,7 +111,7 @@ namespace RedshiftSupplyCollectorTests
         {
             var (tables, elements) = _instance.GetSchema(_container);
 
-            var fieldNames = new string[] { "id", "low_case", "upcase", "camelcase", "Table", "array", "SELECT" }; // first 4 without quotes are converted to lower case
+            var fieldNames = new string[] { "id", "low_case", "upcase", "camelcase", "table", "array", "select" };
 
             var columns = elements.Where(x => x.Collection.Name.Equals("test_field_names")).ToArray();
             Assert.Equal(fieldNames.Length, columns.Length);
@@ -128,12 +128,11 @@ namespace RedshiftSupplyCollectorTests
             var (tables, elements) = _instance.GetSchema(_container);
 
             var idFields = elements.Where(x => x.Name.Equals("id")).ToArray();
-            Assert.Equal(4, idFields.Length);
+            Assert.Equal(3, idFields.Length);
 
             foreach (var idField in idFields)
             {
                 Assert.Equal(DataType.Long, idField.DataType);
-                Assert.True(idField.IsAutoNumber);
                 Assert.True(idField.IsPrimaryKey);
             }
 
