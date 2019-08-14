@@ -101,32 +101,44 @@ namespace RedshiftSupplyCollector {
 
                 using (var cmd = conn.CreateCommand()) {
                     cmd.CommandText =
-                        "select t.table_schema, t.table_name, pg_relation_size('\"' || t.table_schema || '\".\"' || t.table_name || '\"') as size, s.n_live_tup, s.n_dead_tup\n" +
-                        "from information_schema.tables t\n" +
-                        "left outer join pg_stat_user_tables s on s.schemaname = t.table_schema and s.relname = t.table_name\n" +
-                        "where table_schema not in ('pg_catalog', 'information_schema')";
+                        "select \n" +
+                        "cast(use2.usename as varchar(50)) as owner,\n" +
+                        "trim(pgn.nspname) as Schema,\n" +
+                        "trim(a.name) as Table,\n" +
+                        "b.mbytes,\n" +
+                        "a.rows\n" +
+                        "from\n" +
+                        "(select db_id, id, name, sum(rows) as rows\n" +
+                        "from stv_tbl_perm a\n" +
+                        "group by db_id, id, name\n" +
+                        ") as a\n" +
+                        "join pg_class as pgc on pgc.oid = a.id\n" +
+                        "left join pg_user use2 on(pgc.relowner = use2.usesysid)\n" +
+                        "join pg_namespace as pgn on pgn.oid = pgc.relnamespace\n" +
+                        "join pg_database as pgdb on pgdb.oid = a.db_id\n" +
+                        "join\n" +
+                        "(select tbl, count(*) as mbytes\n" +
+                        "from stv_blocklist\n" +
+                        "group by tbl\n" +
+                        ") b on a.id = b.tbl\n";
 
                     using (var reader = cmd.ExecuteReader()) {
                         while (reader.Read()) {
                             int column = 0;
 
+                            var owner = reader.GetString(column++);
                             var schema = reader.GetString(column++);
                             var table = reader.GetString(column++);
                             var size = reader.GetInt64(column++);
-                            var liveRows = reader.GetInt64(column++);
-                            var deadRows = reader.GetInt64(column++);
-
-                            var totalRows = liveRows + deadRows;
-
-                            var deadSize = totalRows == 0 ? 0 : ((double) size / (liveRows + deadRows)) * deadRows;
+                            var rows = reader.GetInt64(column++);
 
                             metrics.Add(new DataCollectionMetrics() {
                                 Schema = schema,
                                 Name = table,
-                                RowCount = liveRows,
-                                TotalSpaceKB = size / 1024,
-                                UnUsedSpaceKB = (long) (deadSize / 1024),
-                                UsedSpaceKB = (long) (size - deadSize) / 1024
+                                RowCount = rows,
+                                TotalSpaceKB = size * 1024,
+                                UnUsedSpaceKB = 0,
+                                UsedSpaceKB = size * 1024,
                             });
                         }
                     }

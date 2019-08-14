@@ -39,17 +39,17 @@ namespace RedshiftSupplyCollectorTests
         {
             var metrics = new DataCollectionMetrics[] {
                 new DataCollectionMetrics()
-                    {Name = "test_data_types", RowCount = 1, TotalSpaceKB = 8},
+                    {Name = "test_data_types", RowCount = 1, TotalSpaceKB = 15 * 1024},
                 new DataCollectionMetrics()
-                    {Name = "test_field_names", RowCount = 1, TotalSpaceKB = 8},
+                    {Name = "test_field_names", RowCount = 1, TotalSpaceKB = 10 * 1024},
                 new DataCollectionMetrics()
-                    {Name = "test_index", RowCount = 7, TotalSpaceKB = 8},
+                    {Name = "test_index", RowCount = 7, TotalSpaceKB = 5 * 1024},
                 new DataCollectionMetrics()
-                    {Name = "test_index_ref", RowCount = 2, TotalSpaceKB = 8}
+                    {Name = "test_index_ref", RowCount = 2, TotalSpaceKB = 5 * 1024}
             };
 
             var result = _instance.GetDataCollectionMetrics(_container);
-            Assert.Equal(5, result.Count);
+            Assert.Equal(metrics.Length, result.Count);
 
             foreach (var metric in metrics)
             {
