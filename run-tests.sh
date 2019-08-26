@@ -56,5 +56,3 @@ echo } >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
 
 dotnet build
 dotnet test
-docker stop redshift
-docker rm redshift
