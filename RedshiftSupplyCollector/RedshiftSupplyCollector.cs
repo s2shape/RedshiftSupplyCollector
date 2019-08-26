@@ -150,7 +150,6 @@ namespace RedshiftSupplyCollector {
 
         public override (List<DataCollection>, List<DataEntity>) GetSchema(DataContainer container) {
             var collections = new List<DataCollection>();
-
             var entities = new List<DataEntity>();
 
             using (var conn = new NpgsqlConnection(container.ConnectionString)) {

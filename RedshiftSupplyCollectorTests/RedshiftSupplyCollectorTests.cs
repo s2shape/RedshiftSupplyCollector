@@ -6,17 +6,25 @@ using Xunit;
 
 namespace RedshiftSupplyCollectorTests
 {
-    public class RedshiftSupplyCollectorTests
+    public class RedshiftSupplyCollectorTests : IClassFixture<LaunchSettingsFixture>
     {
         private readonly RedshiftSupplyCollector.RedshiftSupplyCollector _instance;
         public readonly DataContainer _container;
+        private LaunchSettingsFixture _fixture;
 
-        public RedshiftSupplyCollectorTests()
+        public RedshiftSupplyCollectorTests(LaunchSettingsFixture fixture)
         {
+            _fixture = fixture;
             _instance = new RedshiftSupplyCollector.RedshiftSupplyCollector();
             _container = new DataContainer()
             {
-                ConnectionString = _instance.BuildConnectionString("awsuser", "AWSu$err123", "dev", "redshift-cluster-1.cp5amaceqv1g.us-east-1.redshift.amazonaws.com", 5439)
+                ConnectionString = _instance.BuildConnectionString(
+                    Environment.GetEnvironmentVariable("REDSHIFT_USER"),
+                    Environment.GetEnvironmentVariable("REDSHIFT_PASS"),
+                    Environment.GetEnvironmentVariable("REDSHIFT_DB"),
+                    Environment.GetEnvironmentVariable("REDSHIFT_HOST"),
+                    Int32.Parse(Environment.GetEnvironmentVariable("REDSHIFT_PORT") ?? "5439")
+                    )
             };
         }
 
@@ -49,7 +57,7 @@ namespace RedshiftSupplyCollectorTests
             };
 
             var result = _instance.GetDataCollectionMetrics(_container);
-            Assert.Equal(metrics.Length, result.Count);
+            Assert.Equal(5, result.Count);
 
             foreach (var metric in metrics)
             {

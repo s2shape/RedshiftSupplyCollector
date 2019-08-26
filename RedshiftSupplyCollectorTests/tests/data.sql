@@ -54,4 +54,4 @@ create table test_index_ref (
 insert into test_index_ref(id, index_id)
 values
 (1, 1),
-(1, 5);
+(2, 5);
