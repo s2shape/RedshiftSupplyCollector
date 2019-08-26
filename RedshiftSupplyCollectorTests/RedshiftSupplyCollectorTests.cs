@@ -171,7 +171,10 @@ namespace RedshiftSupplyCollectorTests
                 new DataCollection(_container, "test_index"));
 
             var samples = _instance.CollectSample(entity, 5);
-            Assert.Equal(5, samples.Count);
+            Assert.InRange(samples.Count, 4, 6);
+
+            samples = _instance.CollectSample(entity, 7);
+            Assert.Equal(7, samples.Count);
             Assert.Contains("Wednesday", samples);
         }
     }

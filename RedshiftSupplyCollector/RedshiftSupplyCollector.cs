@@ -74,8 +74,24 @@ namespace RedshiftSupplyCollector {
             using (var conn = new NpgsqlConnection(dataEntity.Container.ConnectionString)) {
                 conn.Open();
 
+                long rows = 0;
                 using (var cmd = conn.CreateCommand()) {
-                    cmd.CommandText = $"SELECT {dataEntity.Name} FROM {dataEntity.Collection.Name} LIMIT {sampleSize}";
+                    cmd.CommandText = $"SELECT COUNT(*) FROM {dataEntity.Collection.Name}";
+                    rows = (long) cmd.ExecuteScalar();
+                }
+
+                using (var cmd = conn.CreateCommand()) {
+                    string sampling = "";
+                    if (rows > 0)
+                    {
+                        double pct = 0.05 + (double)sampleSize / rows;
+                        if (pct >= 1)
+                            pct = 0.999;
+
+                        sampling = $"WHERE RANDOM() < {pct}".Replace(",", ".");
+                    }
+
+                    cmd.CommandText = $"SELECT {dataEntity.Name} FROM {dataEntity.Collection.Name} {sampling} LIMIT {sampleSize}";
 
                     using (var reader = cmd.ExecuteReader()) {
                         while (reader.Read()) {

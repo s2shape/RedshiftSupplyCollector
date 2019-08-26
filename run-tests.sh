@@ -26,7 +26,7 @@ case $key in
     shift # past argument
     shift # past value
     ;;
-    -p|--password)
+    -p|--pass)
     REDSHIFT_PASS="$2"
     shift # past argument
     shift # past value
@@ -40,15 +40,15 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 echo { > RedshiftSupplyCollectorTests/Properties/launchSettings.json
-echo   "profiles": { >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
-echo     "RedshiftSupplyCollectorTests": { >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
-echo       "commandName": "Project", >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
-echo       "environmentVariables": { >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
-echo         "REDSHIFT_HOST": "${REDSHIFT_HOST}", >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
-echo         "REDSHIFT_USER": "${REDSHIFT_USER}", >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
-echo         "REDSHIFT_DB": "${REDSHIFT_DB}",  >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
-echo         "REDSHIFT_PORT": "${REDSHIFT_PORT}",  >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
-echo         "REDSHIFT_PASS": "${REDSHIFT_PASS}" >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
+echo   \"profiles\": { >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
+echo     \"RedshiftSupplyCollectorTests\": { >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
+echo       \"commandName\": \"Project\", >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
+echo       \"environmentVariables\": { >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
+echo         \"REDSHIFT_HOST\": \"${REDSHIFT_HOST}\", >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
+echo         \"REDSHIFT_USER\": \"${REDSHIFT_USER}\", >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
+echo         \"REDSHIFT_DB\": \"${REDSHIFT_DB}\",  >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
+echo         \"REDSHIFT_PORT\": \"${REDSHIFT_PORT}\",  >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
+echo         \"REDSHIFT_PASS\": \"${REDSHIFT_PASS}\" >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
 echo       } >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
 echo     } >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
 echo   } >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
