@@ -39,6 +39,7 @@ esac
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
+mkdir RedshiftSupplyCollectorTests/Properties
 echo { > RedshiftSupplyCollectorTests/Properties/launchSettings.json
 echo   \"profiles\": { >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
 echo     \"RedshiftSupplyCollectorTests\": { >> RedshiftSupplyCollectorTests/Properties/launchSettings.json
