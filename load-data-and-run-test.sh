@@ -1,3 +1,3 @@
 #!/bin/bash
-load-data.sh "$@"
-run-tests.sh "$@"
+./load-data.sh "$@"
+./run-tests.sh "$@"

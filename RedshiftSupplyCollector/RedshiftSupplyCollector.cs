@@ -126,6 +126,7 @@ namespace RedshiftSupplyCollector {
                         "from\n" +
                         "(select db_id, id, name, sum(rows) as rows\n" +
                         "from stv_tbl_perm a\n" +
+                        "where a.slice=0\n" +
                         "group by db_id, id, name\n" +
                         ") as a\n" +
                         "join pg_class as pgc on pgc.oid = a.id\n" +
@@ -135,6 +136,7 @@ namespace RedshiftSupplyCollector {
                         "join\n" +
                         "(select tbl, count(*) as mbytes\n" +
                         "from stv_blocklist\n" +
+                        "where slice=0\n" +
                         "group by tbl\n" +
                         ") b on a.id = b.tbl\n";
 
