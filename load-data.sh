@@ -40,7 +40,7 @@ done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
 docker run --name postgres -e POSTGRES_PASSWORD=postgres -d postgres 
-docker cp RedshiftSupplyCollectorTests/tests/data.sql postgres:/data.sql
+docker cp RedshiftSupplyCollectorLoader/tests/data.sql postgres:/data.sql
 echo $REDSHIFT_HOST:$REDSHIFT_PORT:$REDSHIFT_DB:$REDSHIFT_USER:$REDSHIFT_PASS > .pgpass
 docker cp .pgpass postgres:/var/lib/postgresql/.pgpass
 docker exec -i postgres chown postgres:postgres /var/lib/postgresql/.pgpass

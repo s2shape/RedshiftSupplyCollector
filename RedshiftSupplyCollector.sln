@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedshiftSupplyCollector", "RedshiftSupplyCollector\RedshiftSupplyCollector.csproj", "{F0EEC2BE-B13A-4BA1-ADFE-EC84D746CCC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedshiftSupplyCollector", "RedshiftSupplyCollector\RedshiftSupplyCollector.csproj", "{F0EEC2BE-B13A-4BA1-ADFE-EC84D746CCC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedshiftSupplyCollectorTests", "RedshiftSupplyCollectorTests\RedshiftSupplyCollectorTests.csproj", "{D097D1C6-F695-409E-BCD5-C957DF3C2B61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RedshiftSupplyCollectorTests", "RedshiftSupplyCollectorTests\RedshiftSupplyCollectorTests.csproj", "{D097D1C6-F695-409E-BCD5-C957DF3C2B61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedshiftSupplyCollectorLoader", "RedshiftSupplyCollectorLoader\RedshiftSupplyCollectorLoader.csproj", "{F6386147-BF84-4B06-908E-E3C8E686C0EF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{D097D1C6-F695-409E-BCD5-C957DF3C2B61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D097D1C6-F695-409E-BCD5-C957DF3C2B61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D097D1C6-F695-409E-BCD5-C957DF3C2B61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6386147-BF84-4B06-908E-E3C8E686C0EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6386147-BF84-4B06-908E-E3C8E686C0EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6386147-BF84-4B06-908E-E3C8E686C0EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6386147-BF84-4B06-908E-E3C8E686C0EF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
